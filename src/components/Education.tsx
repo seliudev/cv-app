@@ -1,77 +1,43 @@
-import { useState } from "react";
+import type {EducationProps} from "../types";
+import type {Dispatch, SetStateAction} from "react";
 
-interface EducationProps {
-    school: string;
-    title: string;
-    date: string;
+interface Props {
+    data: EducationProps;
+    setData: Dispatch<SetStateAction<EducationProps>>;
 }
 
-const Education = () => {
-    const [isEditing, setIsEditing] = useState<boolean>(true);
-
-    const [education, setEducation] = useState<EducationProps>({
-        school: "",
-        title: "",
-        date: "",
-    });
-
+const Education = ({ data, setData }: Props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setEducation({ ...education, [name]: value });
-    };
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsEditing(false);
+        setData({ ...data, [e.target.name]: e.target.value });
     };
 
     return (
-        <section className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold mb-4">Education</h2>
+        <section className="bg-white p-6 rounded shadow border-2 border-green-600">
+            <h2 className="text-xl font-semibold mb-4">Education</h2>
 
-            {isEditing ? (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input
-                        name="school"
-                        value={education.school}
-                        onChange={handleChange}
-                        placeholder="School Name"
-                        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
-                    />
-                    <input
-                        name="title"
-                        value={education.title}
-                        onChange={handleChange}
-                        placeholder="Title of Study"
-                        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
-                    />
-                    <input
-                        name="date"
-                        value={education.date}
-                        onChange={handleChange}
-                        placeholder="Date of Study"
-                        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer"
-                    >
-                        Submit
-                    </button>
-                </form>
-            ) : (
-                <div className="space-y-2">
-                    <p><strong>School:</strong> {education.school}</p>
-                    <p><strong>Title:</strong> {education.title}</p>
-                    <p><strong>Date:</strong> {education.date}</p>
-                    <button
-                        onClick={() => setIsEditing(true)}
-                        className="mt-4 text-blue-600 underline hover:cursor-pointer"
-                    >
-                        Edit
-                    </button>
-                </div>
-            )}
+            <input
+                name="school"
+                value={data.school}
+                onChange={handleChange}
+                placeholder="School Name"
+                className="w-full border rounded px-3 py-2 mb-3"
+            />
+
+            <input
+                name="title"
+                value={data.title}
+                onChange={handleChange}
+                placeholder="Title of Study"
+                className="w-full border rounded px-3 py-2 mb-3"
+            />
+
+            <input
+                name="date"
+                value={data.date}
+                onChange={handleChange}
+                placeholder="Date of Study"
+                className="w-full border rounded px-3 py-2"
+            />
         </section>
     );
 };
